@@ -10,6 +10,7 @@ const server = Hapi.server({
 const start = async () => {
 	await server.register(plugins);
 	await server.start();
+
 	console.log('Server running at:', server.info.uri);
 };
 

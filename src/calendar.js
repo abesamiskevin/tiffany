@@ -1,15 +1,11 @@
-const admin = require('firebase-admin');
+const Firestore = require('@google-cloud/firestore');
 
-const serviceAccount = require('../tiffany-ddc643fed32d.json');
-
-admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount)
+const firestore = new Firestore({
+	keyFilename: 'tiffany.json'
 });
 
-const db = admin.firestore();
-
 const getCalendar = async date => {
-	let document = await db
+	let document = await firestore
 		.collection('calendar')
 		.doc(date)
 		.get();

@@ -4,7 +4,8 @@ import getCalendar from './calendar';
 
 const typeDefs = `
 	type Film {
-		title: String!
+		id: Int
+		title: String
 		director: String
 		showtime: [String]
 	}

@@ -1,17 +1,13 @@
 'use strict';
 
-const admin = require('firebase-admin');
+const Firestore = require('@google-cloud/firestore');
 
-const serviceAccount = require('../tiffany-ddc643fed32d.json');
-
-admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount)
+const firestore = new Firestore({
+	keyFilename: 'tiffany.json'
 });
 
-const db = admin.firestore();
-
 const getCalendar = async date => {
-	let document = await db
+	let document = await firestore
 		.collection('calendar')
 		.doc(date)
 		.get();
@@ -23,7 +19,8 @@ const { makeExecutableSchema } = require('graphql-tools');
 
 const typeDefs = `
 	type Film {
-		title: String!
+		id: Int
+		title: String
 		director: String
 		showtime: [String]
 	}
@@ -44,7 +41,7 @@ var executableSchema = makeExecutableSchema({
 	resolvers
 });
 
-const { graphqlHapi } = require('apollo-server-hapi');
+const { graphqlHapi, graphiqlHapi } = require('apollo-server-hapi');
 
 const plugins = [
 	{
@@ -53,6 +50,13 @@ const plugins = [
 			path: '/graphql',
 			graphqlOptions: { schema: executableSchema },
 			route: { cors: true }
+		}
+	},
+	{
+		plugin: graphiqlHapi,
+		options: {
+			path: '/graphiql',
+			graphiqlOptions: { endpointURL: '/graphql' }
 		}
 	}
 ];
@@ -67,6 +71,7 @@ const server = Hapi.server({
 const start = async () => {
 	await server.register(plugins);
 	await server.start();
+
 	console.log('Server running at:', server.info.uri);
 };
 

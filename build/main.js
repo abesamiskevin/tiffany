@@ -19,7 +19,6 @@ const { makeExecutableSchema } = require('graphql-tools');
 
 const typeDefs = `
 	type Film {
-		id: Int
 		title: String
 		director: String
 		showtime: [String]

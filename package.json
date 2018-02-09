@@ -11,10 +11,12 @@
 		"hapi": "^17.2.0"
 	},
 	"scripts": {
-		"dev": "rollup -c --watch",
-		"start": "nodemon ./build/main.js"
+		"build": "node build.js",
+		"start": "node build/main.js"
 	},
 	"devDependencies": {
+		"rollup": "^0.55.3",
+		"rollup-plugin-commonjs": "^8.3.0",
 		"rollup-plugin-node-resolve": "^3.0.2"
 	}
 }

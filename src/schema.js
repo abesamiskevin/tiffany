@@ -10,13 +10,13 @@ const typeDefs = `
 	}
 
 	type Query {
-		calendar(date: String!): [Film]
+		calendar: [Film]
 	}
 `;
 
 const resolvers = {
 	Query: {
-		calendar: (_, { date }) => getCalendar(date)
+		calendar: () => getCalendar('2018-02-08')
 	}
 };
 
